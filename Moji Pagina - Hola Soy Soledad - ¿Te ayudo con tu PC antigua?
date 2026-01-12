@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOJIS - PC Optimizer</title>
+    <style>
+        /* Estilos del Componente Widget */
+        :root { 
+            --mojis-black: #000; 
+            --mojis-white: #fff; 
+            --mojis-transition: all .3s ease; 
+        }
+
+        /* Contenedor principal para encapsular el componente */
+        .mojis-widget-wrapper {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: inline-block;
+        }
+
+        /* Botón disparador principal */
+        .trigger-btn {
+            background: var(--mojis-black);
+            color: var(--mojis-white);
+            border: 2px solid var(--mojis-black);
+            padding: 15px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--mojis-transition);
+        }
+
+        .trigger-btn:hover {
+            background: var(--mojis-white);
+            color: var(--mojis-black);
+        }
+
+        /* Contenedor del Widget (Capa flotante/fija) */
+        .mojis-container { 
+            display: none; 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--mojis-white); 
+            color: var(--mojis-black); 
+            max-width: 950px; 
+            width: 90%; 
+            padding: 30px; 
+            z-index: 9999;
+            border: 2px solid var(--mojis-black); 
+            box-sizing: border-box; 
+            max-height: 90vh;
+            overflow-y: auto;
+            flex-direction: column; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: fadeIn .4s;
+        }
+
+        /* Overlay para oscurecer el fondo cuando se abre el widget */
+        .mojis-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+        }
+        
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; font-weight: bold; }
+        .back-btn { display: none; cursor: pointer; margin-bottom: 15px; font-size: 13px; font-weight: bold; text-transform: uppercase; }
+
+        .mojis-container h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 25px; line-height: 1.4; color: var(--mojis-black); }
+        .mojis-container p { line-height: 1.5; margin-bottom: 15px; color: var(--mojis-black); }
+        .mojis-container b { font-weight: 800; }
+
+        .mojis-btn { 
+            background: var(--mojis-black); 
+            color: var(--mojis-white); 
+            border: 2px solid var(--mojis-black); 
+            padding: 12px; 
+            font-size: 11px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            transition: var(--mojis-transition); 
+            text-align: center; 
+            text-decoration: none; 
+            display: block; 
+            width: 100%; 
+            box-sizing: border-box; 
+            margin-bottom: 10px; 
+        }
+        .mojis-btn:hover { background: var(--mojis-white); color: var(--mojis-black); }
+
+        .view { display: none; width: 100%; }
+        .view.active { display: block; animation: fadeIn .4s; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .distro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .distro-card { border: 1px solid #ddd; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: var(--mojis-transition); background: #fff; }
+        .distro-card:hover { border-color: var(--mojis-black); }
+        .distro-header { font-size: 1.1rem; display: block; margin-bottom: 5px; font-weight: bold; }
+        .distro-desc { font-size: .9rem; font-style: italic; color: #444; min-height: 40px; margin-bottom: 15px; }
+        
+        .distro-img { width: 100%; margin-bottom: 15px; border: 1px solid #eee; height: auto; display: block; }
+        .off-link { color: var(--mojis-black); font-weight: bold; font-size: .8rem; display: block; text-align: center; margin-top: 10px; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <!-- CONTENEDOR DEL BOTÓN Y WIDGET (COPIAR DESDE AQUÍ) -->
+    <div class="mojis-widget-wrapper">
+        
+        <!-- BOTÓN DISPARADOR -->
+        <button class="trigger-btn" onclick="openMojisWidget()">¿Te ayudo con tu PC antigua? 🖤</button>
+
+        <!-- CAPA DE FONDO -->
+        <div class="mojis-overlay" id="mojisOverlay" onclick="closeMojisWidget()"></div>
+
+        <!-- INTERFAZ DEL OPTIMIZADOR -->
+        <div class="mojis-container" id="mojisWidget">
+            <span class="close-btn" onclick="closeMojisWidget()">×</span>
+            <div class="back-btn" id="mojisBackBtn" onclick="goBackMojis()">← VOLVER</div>
+
+            <!-- VISTA INICIAL -->
+            <div id="mojisMainView" class="view active">
+                <h2>Si tu laptop antigua apenas corre Windows, elige una opción:</h2>
+                <button class="mojis-btn" onclick="showMojisView('mojisWin11View')">Uso Windows 11</button>
+                <button class="mojis-btn" onclick="showMojisView('mojisOtherWinView')">Uso otro Windows</button>
+            </div>
+
+            <!-- WINDOWS 11 -->
+            <div id="mojisWin11View" class="view">
+                <p>Recomendado: <b>ATLAS OS</b> para máximo rendimiento.</p>
+                <img src="https://lh3.googleusercontent.com/d/18sm9V4o0nmI_88koF1bJiAvX0BYIc9tY" class="distro-img" alt="Atlas OS">
+                <a href="https://youtu.be/nx60ompp-PM" target="_blank" class="mojis-btn">TUTORIAL</a>
+                <a href="https://atlasos.net/" target="_blank" class="off-link">Web Oficial</a>
+            </div>
+
+            <!-- OTROS WINDOWS (LINUX) -->
+            <div id="mojisOtherWinView" class="view">
+                <p>Alternativas de <b>LINUX</b> ligeras:</p>
+                <div class="distro-grid">
+                    <div class="distro-card">
+                        <strong class="distro-header">1. Linux Mint XFCE</strong>
+                        <p class="distro-desc">"Ligera y corre hasta en una tostadora."</p>
+                        <img src="https://lh3.googleusercontent.com/d/1oEH8bW0RXKBM68SDFrzfZZSTSPdVSDfR" class="distro-img" alt="Linux Mint">
+                        <a href="https://youtu.be/F8fIfx5WDxQ" target="_blank" class="mojis-btn">TUTORIAL</a>
+                        <a href="https://linuxmint.com/edition.php?id=323" target="_blank" class="off-link">Web Oficial</a>
+                    </div>
+                    <div class="distro-card">
+                        <strong class="distro-header">2. Zorin OS Lite</strong>
+                        <p class="distro-desc">"Interfaz moderna y agradable."</p>
+                        <img src="https://lh3.googleusercontent.com/d/1tHz1pZFvi5MZvlBh0SWGo-aruFK-nAZ8" class="distro-img" alt="Zorin OS">
+                        <a href="https://youtu.be/KMC2GaGqtGk" target="_blank" class="mojis-btn">TUTORIAL</a>
+                        <a href="https://zorin.com/os/download/" target="_blank" class="off-link">Web Oficial</a>
+                    </div>
+                    <div class="distro-card">
+                        <strong class="distro-header">3. Pop OS</strong>
+                        <p class="distro-desc">"La favorita para productividad."</p>
+                        <img src="https://lh3.googleusercontent.com/d/1btANhIRhdOdhmoEe7Lx7cR3FJ62oPTqa" class="distro-img" alt="Pop OS">
+                        <a href="https://youtu.be/4NBUj-_vJys" target="_blank" class="mojis-btn">TUTORIAL</a>
+                        <a href="http://system76.com/pop/download/" target="_blank" class="off-link">Web Oficial</a>
+                    </div>
+                </div>
+                <button class="mojis-btn" style="margin-top:20px; background: transparent; color: black; border-color: transparent;" onclick="showMojisView('mojisCustomView')">¿Quieres personalizarlo? 🖤</button>
+            </div>
+
+            <!-- PERSONALIZACIÓN -->
+            <div id="mojisCustomView" class="view">
+                <h2>¿Cómo personalizo mi PC?</h2>
+                <p>Lo increíble de <b>LINUX</b> es su capacidad de cambio total sin afectar el rendimiento. Aquí tutoriales de Ezku:</p>
+                <div class="distro-grid">
+                    <div class="distro-card">
+                        <strong class="distro-header">Mint XFCE</strong>
+                        <img src="https://lh3.googleusercontent.com/d/1oEH8bW0RXKBM68SDFrzfZZSTSPdVSDfR" class="distro-img">
+                        <a href="https://youtu.be/2WP0nPFlZ5w" target="_blank" class="mojis-btn">TUTORIAL</a>
+                    </div>
+                    <div class="distro-card">
+                        <strong class="distro-header">Zorin OS</strong>
+                        <img src="https://lh3.googleusercontent.com/d/1tHz1pZFvi5MZvlBh0SWGo-aruFK-nAZ8" class="distro-img">
+                        <a href="https://youtu.be/daZD_sPJLJc" target="_blank" class="mojis-btn">TUTORIAL</a>
+                    </div>
+                    <div class="distro-card">
+                        <strong class="distro-header">Pop OS</strong>
+                        <img src="https://lh3.googleusercontent.com/d/1btANhIRhdOdhmoEe7Lx7cR3FJ62oPTqa" class="distro-img">
+                        <a href="https://youtu.be/vW0l0MpuO7s" target="_blank" class="mojis-btn">TUTORIAL</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let mojisNavHistory = ['mojisMainView'];
+        const mojisBackBtn = document.getElementById('mojisBackBtn');
+        const mojisWidget = document.getElementById('mojisWidget');
+        const mojisOverlay = document.getElementById('mojisOverlay');
+
+        function openMojisWidget() {
+            mojisWidget.style.display = 'flex';
+            mojisOverlay.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        }
+
+        function closeMojisWidget() {
+            mojisWidget.style.display = 'none';
+            mojisOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showMojisView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            mojisNavHistory.push(id);
+            mojisBackBtn.style.display = 'block';
+            mojisWidget.scrollTop = 0;
+        }
+
+        function goBackMojis() {
+            if (mojisNavHistory.length > 1) {
+                mojisNavHistory.pop();
+                const prev = mojisNavHistory[mojisNavHistory.length - 1];
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.getElementById(prev).classList.add('active');
+                if (prev === 'mojisMainView') mojisBackBtn.style.display = 'none';
+                mojisWidget.scrollTop = 0;
+            }
+        }
+    </script>
+</body>
+</html>
