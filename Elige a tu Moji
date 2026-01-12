@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mojis - Selección Elite Grande</title>
+    <style>
+        /* IMPORTACIÓN DE TIPOGRAFÍA */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap');
+
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* FONDO ESTELAR */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* TÍTULO - Fino y elegante */
+        h1 {
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 50px;
+            text-align: center;
+            opacity: 0.8;
+            width: 100%;
+        }
+
+        /* GRID DE MOJIS - AHORA MÁS GRANDE */
+        .moji-grid {
+            display: grid;
+            /* Aumentamos el minmax de 150px a 220px para que sean más grandes */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1200px; /* Aumentamos el ancho máximo del contenedor */
+            width: 100%;
+            padding: 10px;
+        }
+
+        /* TARJETA 9:16 */
+        .moji-card {
+            background: transparent;
+            border: none;
+            transition: transform var(--transition-speed) cubic-bezier(0.2, 1, 0.3, 1);
+            cursor: pointer;
+            aspect-ratio: 9 / 16;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .moji-card:hover {
+            transform: scale(1.04);
+        }
+
+        /* CONTENEDOR DE IMAGEN */
+        .image-box {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            background: #050505;
+            border-radius: 4px;
+        }
+
+        .moji-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) brightness(0.35);
+            transition: filter var(--transition-speed) ease;
+        }
+
+        .moji-card:hover .moji-img {
+            filter: grayscale(0) brightness(1);
+        }
+
+        /* INFO DE NOMBRE */
+        .moji-info {
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .moji-info span {
+            font-size: 0.8rem; /* Ligeramente más grande para acompañar la escala */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #444;
+            transition: color var(--transition-speed);
+        }
+
+        .moji-card:hover .moji-info span {
+            color: #fff;
+        }
+
+        /* RESPONSIVO PARA MÓVILES */
+        @media (max-width: 600px) {
+            .moji-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 20px;
+            }
+            h1 { font-size: 1.1rem; letter-spacing: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="star-container"></div>
+
+    <h1>Elije a tu Moji</h1>
+
+    <div class="moji-grid">
+        <!-- Zergits -->
+        <div class="moji-card">
+            <div class="image-box">
+                <img src="https://drive.google.com/thumbnail?id=1nUZ4TlaX5Snn1qcUDOjgNnEHJKp8g2Oy&sz=w1000" class="moji-img" alt="Zergits">
+            </div>
+            <div class="moji-info"><span>Zergits :D</span></div>
+        </div>
+
+        <!-- Esmeralda -->
+        <div class="moji-card">
+            <div class="image-box">
+                <img src="https://drive.google.com/thumbnail?id=1YM8yZQT-G7iBbFZVlFS-WBMqk4MnY_6M&sz=w1000" class="moji-img" alt="Esmeralda">
+            </div>
+            <div class="moji-info"><span>Esmeralda</span></div>
+        </div>
+
+        <!-- Andreas MV -->
+        <div class="moji-card">
+            <div class="image-box">
+                <img src="https://drive.google.com/thumbnail?id=1fwv_42SmIjBrhFZh416fUTyawj3YtF3N&sz=w1000" class="moji-img" alt="Andreas MV">
+            </div>
+            <div class="moji-info"><span>Andreas MV</span></div>
+        </div>
+
+        <!-- Mika -->
+        <div class="moji-card">
+            <div class="image-box">
+                <img src="https://drive.google.com/thumbnail?id=12no5g8U6X2RO1eJqsbWZgnGiyf9zWA5D&sz=w1000" class="moji-img" alt="Mika">
+            </div>
+            <div class="moji-info"><span>Mika</span></div>
+        </div>
+    </div>
+
+    <script>
+        function initStars() {
+            const container = document.getElementById('star-container');
+            if(!container) return;
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                const size = Math.random() * 1.5 + 0.5;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${Math.random() * 4 + 3}s`);
+                container.appendChild(star);
+            }
+        }
+        window.onload = initStars;
+    </script>
+</body>
+</html>
