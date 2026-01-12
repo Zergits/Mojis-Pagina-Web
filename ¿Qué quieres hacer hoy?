@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOJIS - El Medio Definitivo</title>
+    <!-- Importación de tipografía elegante de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* EXTRACCIÓN GENÉTICA DE MARCA: MOJIS 
+           Actualización: Compactación de Layout (Densidad UX)
+        */
+        :root {
+            --bg-color: #000000;
+            --text-primary: #FFFFFF;
+            --accent-glow: rgba(255, 255, 255, 0.1);
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- FONDO DE ESTRELLAS PARPADEANTES --- */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            max-width: 900px;
+            /* Acercamos el título al centro del viewport */
+            margin-top: -20px; 
+        }
+
+        h1 {
+            font-weight: 100;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            /* Juntamos el título con los botones: de 80px a 40px */
+            margin-bottom: 40px; 
+            line-height: 1.1;
+            opacity: 0;
+            animation: fadeInDown 1.2s forwards ease-out;
+        }
+
+        /* --- BOTONES INTERACTIVOS --- */
+        .button-group {
+            display: flex;
+            /* Reducimos separación entre botones: de 60px a 30px */
+            gap: 30px; 
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mojis-btn {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 16px 40px;
+            font-size: 0.85rem;
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: all var(--transition-speed) cubic-bezier(0.23, 1, 0.32, 1);
+            min-width: 260px;
+            outline: none;
+        }
+
+        .mojis-btn:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+            /* Mantenemos el crecimiento pero con un factor controlado */
+            transform: scale(1.08); 
+            border-color: var(--text-primary);
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- ANIMACIONES DE ENTRADA --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-15px); letter-spacing: 18px; }
+            to { opacity: 1; transform: translateY(0); letter-spacing: 12px; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-anim-1 { animation: fadeInUp 1s 0.4s forwards ease-out; opacity: 0; }
+        .btn-anim-2 { animation: fadeInUp 1s 0.6s forwards ease-out; opacity: 0; }
+
+        @media (max-width: 768px) {
+            h1 { letter-spacing: 6px; margin-bottom: 30px; }
+            .button-group { gap: 20px; }
+            .mojis-btn { min-width: 220px; padding: 14px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="star-field"></div>
+
+    <div class="main-content">
+        <h1>¿Qué quieres<br>hacer hoy?</h1>
+        
+        <div class="button-group">
+            <button class="mojis-btn btn-anim-1" onclick="console.log('Navegando a Los Mojis...')">
+                Conoce a Los Mojis
+            </button>
+            <button class="mojis-btn btn-anim-2" onclick="console.log('Iniciando Soledad...')">
+                Usa a Soledad
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const field = document.getElementById('star-field');
+            const starCount = 100; // Más limpio aún
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 1.2 + 0.4;
+                const duration = Math.random() * 4 + 3;
+
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                field.appendChild(star);
+            }
+        }
+        window.onload = createStars;
+    </script>
+</body>
+</html>
