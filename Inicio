@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOJIS - Alta Fidelidad Refinada</title>
+    <style>
+        /* ESTILO: Racional UX Noir - Refinado */
+        :root {
+            --primary-black: #000000;
+            --primary-white: #FFFFFF;
+            --transition-speed: 0.5s;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-black);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Fondo de Estrellas */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--primary-white);
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Interfaz Central */
+        .main-interface {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 45px;
+            width: 100%;
+        }
+
+        /* Logo refinado con ajuste de posición (5px adicionales a la izquierda) */
+        .logo-container {
+            width: 140px; 
+            height: auto;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+            animation: fadeIn 1.5s ease-out;
+            transform: translateX(-10px); /* Ajustado de -5px a -10px */
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Botón con bordes finos (1px) */
+        .btn-ingresar {
+            background-color: transparent;
+            color: var(--primary-white);
+            border: 1px solid var(--primary-white);
+            padding: 14px 50px;
+            font-size: 0.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            outline: none;
+        }
+
+        .btn-ingresar:hover {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-10px, 10px); }
+            to { opacity: 1; transform: translate(-10px, 0); }
+        }
+
+        /* Responsivo optimizado */
+        @media (max-width: 480px) {
+            .logo-container { width: 110px; transform: translateX(-5px); }
+            .btn-ingresar { padding: 12px 35px; font-size: 0.7rem; letter-spacing: 3px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="star-container"></div>
+
+    <div class="main-interface">
+        <div class="logo-container">
+            <!-- [Imagen del Logo MOJIS] -->
+            <img src="https://lh3.googleusercontent.com/d/1BIymLdP9BPl0Sn6b2SbkDJj6OQovjg_5" alt="MOJIS Logo" onerror="this.src='https://placehold.co/300x300/000000/FFFFFF?text=MOJIS'">
+        </div>
+
+        <a href="#" class="btn-ingresar">
+            Ingresar
+        </a>
+    </div>
+
+    <script>
+        function createStars() {
+            const container = document.getElementById('star-container');
+            const starCount = 110; 
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 1.2 + 0.4;
+                const duration = Math.random() * 4 + 3;
+                const delay = Math.random() * 5;
+
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        window.onload = createStars;
+    </script>
+</body>
+</html>
